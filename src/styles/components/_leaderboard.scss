@@ -1,0 +1,44 @@
+.leaderboard {
+  width: 100%;
+
+  &__scroll {
+    max-height: 300px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    overscroll-behavior: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-text-secondary) transparent;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background: var(--color-text-secondary);
+    }
+  }
+
+  th {
+    position: sticky;
+    top: 0;
+    padding-bottom: 8px;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+  }
+
+  td {
+    padding: 8px 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  &__empty {
+    margin-bottom: 20px;
+    color: var(--color-text-secondary);
+  }
+}

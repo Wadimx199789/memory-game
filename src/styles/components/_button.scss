@@ -7,6 +7,13 @@
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+
+  &:active {
+    transform: scale(0.97);
+  }
 
   &--primary {
     color: #fff;
@@ -16,5 +23,15 @@
   &--secondary {
     color: var(--color-accent);
     background: var(--color-border);
+  }
+
+  @media (hover: hover) {
+    &--primary:hover {
+      background: var(--color-accent-hover);
+    }
+
+    &--secondary:hover {
+      background: var(--color-border-hover);
+    }
   }
 }

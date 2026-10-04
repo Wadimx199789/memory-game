@@ -1,0 +1,37 @@
+.modal {
+  width: 100%;
+  max-width: 340px;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: none;
+
+  &::backdrop {
+    background: var(--color-overlay);
+  }
+
+  &__window {
+    padding: 24px;
+    border-radius: 20px;
+    text-align: center;
+    background: var(--color-surface);
+  }
+
+  &__title {
+    margin-bottom: 12px;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__text {
+    margin-bottom: 20px;
+    color: var(--color-text-secondary);
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
