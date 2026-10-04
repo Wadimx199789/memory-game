@@ -16,7 +16,9 @@ const PAIRS_COUNT = 8;
 const CLOSE_DELAY = 1000;
 const FLIP_DURATION = 400;
 
-const stats = createStats();
+const LEADERS_KEY = "leaders";
+
+const stats = createStats({ totalPairs: PAIRS_COUNT });
 
 let movesCount = 0;
 let pairsCount = 0;
@@ -50,13 +52,17 @@ const handleCardClick = (card) => {
     pairsCount += 1;
     stats.updateStats({ movesCount, pairsCount });
 
+    if (pairsCount === PAIRS_COUNT) {
+      saveResult(movesCount);
+    }
+
     const matchTimer = setTimeout(() => {
       matchedFirstCard.classList.replace("card--open", "card--matched");
       secondCard.classList.replace("card--open", "card--matched");
       matchTimers = matchTimers.filter((timer) => timer !== matchTimer);
 
       if (pairsCount === PAIRS_COUNT && matchTimers.length === 0) {
-        handleWin();
+        showWinModal(movesCount);
       }
     }, FLIP_DURATION);
 
@@ -80,10 +86,16 @@ const handleCardClick = (card) => {
 
 const board = createBoard({ onCardClick: handleCardClick });
 
+const getLeaders = () => {
+  const leaders = getFromStorage(LEADERS_KEY, []);
+
+  return Array.isArray(leaders) ? leaders : [];
+};
+
 const saveResult = (moves) => {
-  const leaders = getFromStorage("leaders", []);
+  const leaders = getLeaders();
   leaders.push({ moves, date: Date.now() });
-  saveToStorage("leaders", leaders);
+  saveToStorage(LEADERS_KEY, leaders);
 };
 
 const showWinModal = (moves) => {
@@ -105,11 +117,6 @@ const showWinModal = (moves) => {
   modal.openModal();
 };
 
-const handleWin = () => {
-  saveResult(movesCount);
-  showWinModal(movesCount);
-};
-
 const startNewGame = () => {
   clearTimeout(closeTimer);
   closeTimer = null;
@@ -128,7 +135,7 @@ const startNewGame = () => {
 };
 
 const showLeaderboard = () => {
-  const leaders = getFromStorage("leaders", []);
+  const leaders = getLeaders();
 
   if (leaders.length) {
     const topLeaders = [...leaders]

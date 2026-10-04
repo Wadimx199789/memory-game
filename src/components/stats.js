@@ -1,7 +1,5 @@
 import { createElement } from "../utils/create-element.js";
 
-const TOTAL_PAIRS = 8;
-
 const createStatsItem = (label) => {
   const item = createElement("div", {
     className: "stats__item",
@@ -21,7 +19,7 @@ const createStatsItem = (label) => {
   return { item, value };
 };
 
-export const createStats = () => {
+export const createStats = ({ totalPairs }) => {
   const stats = createElement("div", {
     className: "stats",
   });
@@ -33,7 +31,7 @@ export const createStats = () => {
 
   const updateStats = ({ movesCount, pairsCount }) => {
     moves.value.textContent = movesCount;
-    pairs.value.textContent = `${pairsCount} / ${TOTAL_PAIRS}`;
+    pairs.value.textContent = `${pairsCount} / ${totalPairs}`;
   };
 
   updateStats({ movesCount: 0, pairsCount: 0 });
