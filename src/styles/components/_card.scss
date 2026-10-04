@@ -1,0 +1,70 @@
+.card {
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  perspective: 800px;
+
+  &__inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease;
+  }
+
+  &__face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 14px;
+    backface-visibility: hidden;
+  }
+
+  &__back {
+    background: var(--color-accent);
+  }
+
+  &__front {
+    background: var(--color-surface);
+    transform: rotateY(180deg);
+  }
+
+  &__emoji {
+    font-size: 48px;
+    line-height: 1;
+  }
+
+  &__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  &--open,
+  &--matched {
+    cursor: default;
+  }
+
+  &--open &__inner,
+  &--matched &__inner {
+    transform: rotateY(180deg);
+  }
+
+  &--matched &__front {
+    box-shadow: inset 0 0 0 3px var(--color-success);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__inner {
+    transition: none;
+  }
+}

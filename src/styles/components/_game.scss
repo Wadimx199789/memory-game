@@ -1,0 +1,39 @@
+.game {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+
+  &__item {
+    width: 110px;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: center;
+    background: var(--color-surface);
+  }
+
+  &__label {
+    display: block;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+
+  &__value {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+}
