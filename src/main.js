@@ -9,6 +9,7 @@ import { createButton } from "./components/button.js";
 import { createStats } from "./components/stats.js";
 import { createBoard } from "./components/board.js";
 import { shuffle } from "./utils/shuffle.js";
+import { initTheme } from "./utils/theme.js";
 
 const PAIRS_COUNT = 8;
 
@@ -152,6 +153,8 @@ const showLeaderboard = () => {
 };
 
 const initLayout = () => {
+  initTheme();
+
   const header = renderHeader({
     onNewGame: startNewGame,
     onShowLeaderboard: showLeaderboard,

@@ -1,5 +1,6 @@
 import { createElement } from "../utils/create-element.js";
 import { createButton } from "./button.js";
+import { renderThemeSwitch } from "./theme-switch.js";
 
 export const renderHeader = ({ onNewGame, onShowLeaderboard }) => {
   const header = createElement("header", {
@@ -27,7 +28,7 @@ export const renderHeader = ({ onNewGame, onShowLeaderboard }) => {
     action: "leaderboard",
   });
 
-  actions.append(newGameButton, leaderboardButton);
+  actions.append(newGameButton, leaderboardButton, renderThemeSwitch());
   header.append(title, actions);
 
   header.addEventListener("click", (event) => {
