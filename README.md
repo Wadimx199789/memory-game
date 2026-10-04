@@ -4,15 +4,14 @@ A memory card game built as part of the RS School course. Flip cards, remember w
 
 **Deploy:** https://wadimx199789.github.io/memory-game/
 
-**Status:** in progress — card flipping, pair matching and saving results are not implemented yet.
-
 ## Features
 
 - 16 shuffled cards (8 pairs of animal emoji)
 - Moves and found pairs counters
 - "New game" button to reshuffle and reset the board
+- Win modal with the final number of moves
 - Leaderboard with the top 10 results, saved in `localStorage`
-- Light and dark themes based on system settings
+- Light and dark themes with a switcher (system theme by default, choice is saved)
 - The whole interface is generated with JavaScript (`document.createElement`)
 
 ## Tech stack
