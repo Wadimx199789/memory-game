@@ -4,24 +4,119 @@ import { renderHeader } from "./components/header.js";
 import { createModal } from "./components/modal.js";
 import { renderGame } from "./components/game.js";
 import { renderLeaderboard } from "./components/leaderboard.js";
-import { getFromStorage } from "./utils/storage.js";
+import { getFromStorage, saveToStorage } from "./utils/storage.js";
+import { createButton } from "./components/button.js";
 import { createStats } from "./components/stats.js";
 import { createBoard } from "./components/board.js";
 import { shuffle } from "./utils/shuffle.js";
 
 const PAIRS_COUNT = 8;
 
+const CLOSE_DELAY = 1000;
+const FLIP_DURATION = 400;
+
 const stats = createStats();
+
+let movesCount = 0;
+let pairsCount = 0;
+let firstCard = null;
+let isBoardLocked = false;
+let closeTimer = null;
+let matchTimers = [];
+
 const handleCardClick = (card) => {
-  console.log(card.dataset.id);
+  if (
+    isBoardLocked ||
+    card.classList.contains("card--open") ||
+    card.classList.contains("card--matched")
+  ) {
+    return;
+  }
+
+  card.classList.add("card--open");
+
+  if (!firstCard) {
+    firstCard = card;
+    return;
+  }
+
+  const secondCard = card;
+  movesCount += 1;
+
+  if (firstCard.dataset.id === secondCard.dataset.id) {
+    const matchedFirstCard = firstCard;
+    firstCard = null;
+    pairsCount += 1;
+    stats.updateStats({ movesCount, pairsCount });
+
+    const matchTimer = setTimeout(() => {
+      matchedFirstCard.classList.replace("card--open", "card--matched");
+      secondCard.classList.replace("card--open", "card--matched");
+      matchTimers = matchTimers.filter((timer) => timer !== matchTimer);
+
+      if (pairsCount === PAIRS_COUNT && matchTimers.length === 0) {
+        handleWin();
+      }
+    }, FLIP_DURATION);
+
+    matchTimers.push(matchTimer);
+    return;
+  }
+
+  stats.updateStats({ movesCount, pairsCount });
+  isBoardLocked = true;
+
+  const openedFirstCard = firstCard;
+  firstCard = null;
+
+  closeTimer = setTimeout(() => {
+    openedFirstCard.classList.remove("card--open");
+    secondCard.classList.remove("card--open");
+    isBoardLocked = false;
+    closeTimer = null;
+  }, CLOSE_DELAY);
 };
 
 const board = createBoard({ onCardClick: handleCardClick });
 
-let movesCount = 0;
-let pairsCount = 0;
+const saveResult = (moves) => {
+  const leaders = getFromStorage("leaders", []);
+  leaders.push({ moves, date: Date.now() });
+  saveToStorage("leaders", leaders);
+};
+
+const showWinModal = (moves) => {
+  const newGameButton = createButton({
+    text: "New game",
+    classes: ["button--primary"],
+    onButtonClick: () => {
+      modal.closeModal();
+      startNewGame();
+    },
+  });
+
+  const modal = createModal({
+    modalTitle: "You won!",
+    modalSubtitle: `Moves: ${moves}`,
+    modalButtons: [newGameButton],
+  });
+
+  modal.openModal();
+};
+
+const handleWin = () => {
+  saveResult(movesCount);
+  showWinModal(movesCount);
+};
 
 const startNewGame = () => {
+  clearTimeout(closeTimer);
+  closeTimer = null;
+  matchTimers.forEach(clearTimeout);
+  matchTimers = [];
+  firstCard = null;
+  isBoardLocked = false;
+
   movesCount = 0;
   pairsCount = 0;
   stats.updateStats({ movesCount, pairsCount });

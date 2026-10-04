@@ -1,16 +1,40 @@
 .card {
   width: 100%;
   aspect-ratio: 1;
+  padding: 0;
   border: 0;
-  border-radius: 14px;
-  background: var(--color-accent);
+  background: none;
   cursor: pointer;
+  perspective: 800px;
 
-  &__front {
-    display: none;
+  &__inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease;
+  }
+
+  &__face {
+    position: absolute;
+    inset: 0;
+    display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 4px;
+    border-radius: 14px;
+    backface-visibility: hidden;
+  }
+
+  &__back {
+    background: var(--color-accent);
+  }
+
+  &__front {
+    background: var(--color-surface);
+    transform: rotateY(180deg);
   }
 
   &__emoji {
@@ -26,17 +50,21 @@
 
   &--open,
   &--matched {
-    background: var(--color-surface);
     cursor: default;
   }
 
-  &--open &__front,
-  &--matched &__front {
-    display: flex;
+  &--open &__inner,
+  &--matched &__inner {
+    transform: rotateY(180deg);
   }
 
-  &--matched {
-    outline: 3px solid var(--color-success);
-    outline-offset: -3px;
+  &--matched &__front {
+    box-shadow: inset 0 0 0 3px var(--color-success);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__inner {
+    transition: none;
   }
 }

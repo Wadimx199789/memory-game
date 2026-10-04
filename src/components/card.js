@@ -6,12 +6,20 @@ export const renderCard = ({ id, name, emoji }) => {
   const card = createElement("button", {
     className: "card",
     type: "button",
+    dataset: { id },
   });
-  card.dataset.id = id;
   card.setAttribute("aria-label", "Card");
 
+  const inner = createElement("span", {
+    className: "card__inner",
+  });
+
+  const back = createElement("span", {
+    className: "card__face card__back",
+  });
+
   const front = createElement("span", {
-    className: "card__front",
+    className: "card__face card__front",
   });
 
   const emojiElement = createElement("span", {
@@ -25,7 +33,8 @@ export const renderCard = ({ id, name, emoji }) => {
   });
 
   front.append(emojiElement, nameElement);
-  card.append(front);
+  inner.append(back, front);
+  card.append(inner);
   item.append(card);
 
   return item;

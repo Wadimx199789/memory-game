@@ -12,6 +12,8 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   color: var(--color-text);
   background: var(--color-bg);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body.is-locked {
