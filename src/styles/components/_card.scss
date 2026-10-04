@@ -3,12 +3,25 @@
   aspect-ratio: 1;
   border: 0;
   border-radius: 14px;
-  font-size: 48px;
   background: var(--color-accent);
   cursor: pointer;
 
   &__front {
     display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &__emoji {
+    font-size: 48px;
+    line-height: 1;
+  }
+
+  &__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
   }
 
   &--open,
@@ -19,7 +32,7 @@
 
   &--open &__front,
   &--matched &__front {
-    display: inline;
+    display: flex;
   }
 
   &--matched {
