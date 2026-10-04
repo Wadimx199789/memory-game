@@ -1,0 +1,20 @@
+.button {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 20px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+
+  &--primary {
+    color: #fff;
+    background: var(--color-accent);
+  }
+
+  &--secondary {
+    color: var(--color-accent);
+    background: var(--color-border);
+  }
+}
